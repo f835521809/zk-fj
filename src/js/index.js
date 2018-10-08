@@ -1,5 +1,7 @@
 $(function() {
-    new BScroll('.wrap');
+    var wrap = new BScroll('.wrap', {
+        click: true
+    });
 
     $.ajax({
         url: '../data/data.json',
@@ -35,6 +37,7 @@ $(function() {
         console.log(arr);
 
         var str = '';
+        var navstr = '';
         arr.forEach(function(item) {
             str += `<li>
             <h2>${item.title}</h2>
@@ -45,7 +48,14 @@ $(function() {
                     `
             });
             str += `</ol></li>`
+            navstr += `<li>${item.title}</li>`
         });
         $('.list').append(str);
+        $('.nav-list').append(navstr);
     }
+    $('.nav-list').on('click', 'li', function() {
+        var index = $(this).index();
+        wrap.scrollToElement($('.list>li').eq(index)[0]);
+
+    })
 })
